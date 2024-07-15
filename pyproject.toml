@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "trade-turtle"
+version = "0.1.0"
+description = ""
+authors = ["Nicholas Fasching <91689117+njfdev@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
