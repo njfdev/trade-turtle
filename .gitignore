@@ -1,2 +1,5 @@
 # downloaded historical data from yfinance
 /data
+
+# cache
+__pycache__
