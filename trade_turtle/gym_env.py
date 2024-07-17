@@ -8,9 +8,15 @@ class TradingEnv(gym.Env):
     self.df = df
     self.current_step = 0
 
-    # define ovservation space (for now, it will be very simple)
+    # define observation space (for now, it will be very simple)
     self.action_space = spaces.Discrete(3) # buy, hold, sell
     self.observation_space = spaces.Box(low=0, high=1, shape=(len(df.columns),), dtype=np.float32)
+
+    self.positions = {
+      "count": 0,
+      "avg_price": 0,
+    }
+
 
   def reset(self, seed=None, options={}):
     super().reset(seed=seed)
@@ -36,12 +42,24 @@ class TradingEnv(gym.Env):
     # for now, just hardcode some values for buy and sell
     reward = 0
 
+    # Actually get this from the df
+    stock_price = 5
+
+    # buy action
     if (action > 0.5):
-      reward = -0.5
+      self.positions = {
+        "count": self.positions["count"] + 1,
+        "avg_price": ((self.positions["avg_price"] * self.positions["count"]) + stock_price)/(self.positions["count"] + 1)
+      }
     elif (action < -0.5):
-      reward = 1
+      self.positions["count"] -= 1
+      reward = self.positions["avg_price"] - stock_price
 
     return reward
   
   def render(self, mode="human", close=False):
     pass
+
+# return 0 if division by 0 rather than error
+def divide(n, d):
+  return n / d if d else 0
