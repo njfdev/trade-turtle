@@ -8,7 +8,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 yfinance = "^0.2.40"
+stable-baselines3 = "^2.3.2"
+gym = "^0.26.2"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
 
 [build-system]
 requires = ["poetry-core"]
