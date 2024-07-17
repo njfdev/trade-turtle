@@ -1,5 +1,5 @@
-import gym
-from gym import spaces
+import gymnasium as gym
+from gymnasium import spaces
 import numpy as np
 
 class TradingEnv(gym.Env):
@@ -12,9 +12,10 @@ class TradingEnv(gym.Env):
     self.action_space = spaces.Discrete(3) # buy, hold, sell
     self.observation_space = spaces.Box(low=0, high=1, shape=(len(df.columns),), dtype=np.float32)
 
-  def reset(self):
+  def reset(self, seed=None, options={}):
+    super().reset(seed=seed)
     self.current_step = 0
-    return self._next_observation()
+    return self._next_observation(), {}
   
   def _next_observation(self):
     obs = self.df.iloc[self.current_step].values
@@ -29,7 +30,7 @@ class TradingEnv(gym.Env):
 
     done = self.current_step >= len(self.df) - 1
 
-    return obs, reward, done, {}
+    return obs, reward, done, {}, {}
   
   def _take_action(self, action, obs):
     # for now, just hardcode some values for buy and sell
